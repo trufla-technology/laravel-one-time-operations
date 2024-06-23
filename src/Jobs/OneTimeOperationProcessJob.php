@@ -44,7 +44,7 @@ class OneTimeOperationProcessJob implements ShouldQueue
                         'message' => $th->getMessage(),
                         'file' => $th->getFile(),
                         'line' => $th->getLine(),
-                        'trace' => $th->getTraceAsString(),
+                        'trace' => $th->getTrace(),
                         'code' => $th->getCode(),
                     ],
                 ]);
