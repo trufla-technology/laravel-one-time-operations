@@ -39,6 +39,7 @@ class OneTimeOperationRollbackJob implements ShouldQueue
             if ($operation) {
                 FailedOperation::create([
                     'name' => $this->operationName,
+                    'type' => 'rollback',
                     'queue' => $operationClassInstance->getQueue(),
                     'connection' => $operationClassInstance->getConnection(),
                     'dispatched_at' => $operation->processed_at,

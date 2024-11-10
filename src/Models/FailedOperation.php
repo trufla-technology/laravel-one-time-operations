@@ -11,6 +11,7 @@ class FailedOperation extends Model
 
     protected $fillable = [
         'name',
+        'type',
         'dispatched_at',
         'connection',
         'queue',

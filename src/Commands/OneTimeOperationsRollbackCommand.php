@@ -97,17 +97,17 @@ class OneTimeOperationsRollbackCommand extends Command
     protected function processRollback(OneTimeOperationFile $operationFile, $forceAsync, $forceSync)
     {
         $operationClass = $operationFile->getClassObject();
-        $isAsync = $forceAsync || !$forceSync && $operationClass->isAsync();
+        $isAsync = $forceAsync || (!$forceSync && $operationClass->isAsync());
 
         if ($isAsync) {
             OneTimeOperationRollbackJob::dispatch($operationFile->getOperationName())
-                ->onConnection($this->getConnection($operationFile))
-                ->onQueue($this->getQueue($operationFile))
-                ->delay($this->getDelay($operationFile));
+                ->onConnection($operationClass->getConnection())
+                ->onQueue($operationClass->getQueue());
         } else {
-            $operationClass->rollback();
+            OneTimeOperationRollbackJob::dispatchSync($operationFile->getOperationName());
         }
     }
+
 
     protected function deleteJob($filename)
     {
