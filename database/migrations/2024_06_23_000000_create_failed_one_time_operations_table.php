@@ -19,6 +19,7 @@ class CreateFailedOneTimeOperationsTable extends Migration
         Schema::create($this->name, function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type');
             $table->text('connection')->nullable();
             $table->text('queue')->nullable();
             $table->json('exception')->nullable();
