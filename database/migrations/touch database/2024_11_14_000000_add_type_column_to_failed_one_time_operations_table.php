@@ -16,9 +16,11 @@ class AddTypeColumnToFailedOperationsTable extends Migration
 
     public function up(): void
     {
-        Schema::table($this->name, function (Blueprint $table) {
-            $table->string('type')->nullable()->after('name');
-        });
+        if (!Schema::hasColumn($this->name, 'type')) {
+            Schema::table($this->name, function (Blueprint $table) {
+                $table->string('type')->nullable()->after('name');
+            });
+        }
     }
 
     public function down(): void
