@@ -18,4 +18,9 @@ return new class extends OneTimeOperation
     {
         //
     }
+
+    public function rollback(): void
+    {
+        //
+    }
 };

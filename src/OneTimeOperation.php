@@ -34,6 +34,8 @@ abstract class OneTimeOperation
      */
     abstract public function process(): void;
 
+    abstract public function rollback(): void;
+
     public function isAsync(): bool
     {
         return $this->async;

@@ -12,7 +12,7 @@ use TimoKoerber\LaravelOneTimeOperations\Models\FailedOperation;
 use TimoKoerber\LaravelOneTimeOperations\Models\Operation;
 use TimoKoerber\LaravelOneTimeOperations\OneTimeOperationManager;
 
-class OneTimeOperationProcessJob implements ShouldQueue
+class OneTimeOperationRollbackJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -24,20 +24,22 @@ class OneTimeOperationProcessJob implements ShouldQueue
     }
 
     /**
+     * Execute the rollback.
+     *
      * @throws Throwable
      */
     public function handle(): void
     {
         $operationClassInstance = OneTimeOperationManager::getClassObjectByName($this->operationName);
         try {
-            $operationClassInstance->process();
+            $operationClassInstance->rollback();
         } catch (Throwable $th) {
             $operation = Operation::where('name', $this->operationName)->first();
 
             if ($operation) {
                 FailedOperation::create([
                     'name' => $this->operationName,
-                    'type' => 'process',
+                    'type' => 'rollback',
                     'queue' => $operationClassInstance->getQueue(),
                     'connection' => $operationClassInstance->getConnection(),
                     'dispatched_at' => $operation->processed_at,
