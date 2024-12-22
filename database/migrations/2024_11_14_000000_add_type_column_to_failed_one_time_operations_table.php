@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use TimoKoerber\LaravelOneTimeOperations\OneTimeOperationManager;
 
-class AddTypeColumnToFailedOperationsTable extends Migration
+return new class extends Migration
 {
     protected string $name;
 
@@ -31,4 +31,4 @@ class AddTypeColumnToFailedOperationsTable extends Migration
             });
         }
     }
-}
+};
